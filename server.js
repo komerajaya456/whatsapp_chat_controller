@@ -72,7 +72,8 @@ client.on("disconnected", reason => console.error("❌ Client disconnected:", re
       console.log("Scan this QR to log in:");
       qrcode.generate(qr, { small: true });
     });
-    
+    client.pupPage.setDefaultTimeout(0); // disables delays
+
     client.on('remote_session_saved', () => {
       console.log("✅ Remote session saved to MongoDB.");
     });
@@ -82,6 +83,8 @@ client.on("disconnected", reason => console.error("❌ Client disconnected:", re
       console.log(`${chat.from} : ${chat.body} ${contact.pushname}`);
        chat.reply("hi there");
       client.sendMessage(chat.from, "hello");
+      client.sendMessage(chat.from, "Hello!");
+
     });
 
     // Start the client
