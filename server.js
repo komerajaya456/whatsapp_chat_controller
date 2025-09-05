@@ -1,4 +1,17 @@
 // Load environment variables from the .env file.
+
+const express = require("express");
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => res.send("WhatsApp bot is running 🚀"));
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+
+
+
 require('dotenv').config();
 
 const { Client, RemoteAuth } = require("whatsapp-web.js");

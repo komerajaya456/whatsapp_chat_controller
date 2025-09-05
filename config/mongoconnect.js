@@ -9,7 +9,7 @@ async function connectDB() {
       dbName: "whatsappwebsession",
     });
     console.log("✅ MongoDB connected:", process.env.MONGO_URI);
-    console.log("🗄️  Using database:", process.env.MONGO_DB);
+    console.log("🗄️  Using databasess:", process.env.MONGO_DB);
 
     // Return the store instance after a successful connection
     return new MongoStore({
