@@ -43,8 +43,8 @@ async function startBot() {
     client.on("message", async chat => {
       const contact = await chat.getContact();
       console.log(`${chat.from} : ${chat.body} ${contact.pushname}`);
-      await chat.reply("hi there");
-      await client.sendMessage(chat.from, "hello");
+       chat.reply("hi there");
+      client.sendMessage(chat.from, "hello");
     });
 
     // Start the client
