@@ -28,21 +28,45 @@ async function startBot() {
     const store = await connectDB();
 
     // Now that the store is ready, initialize the client
+    // const client = new Client({
+    //   // IMPORTANT: Add these arguments to fix the "Execution context destroyed" error
+    //   puppeteer: {
+    //     args: ['--no-sandbox', '--disable-setuid-sandbox']
+    //   },
+    //   authStrategy: new RemoteAuth({
+    //     store: store,
+    //     backupSyncIntervalMs: 300000
+    //   })
+    // });
     const client = new Client({
-      // IMPORTANT: Add these arguments to fix the "Execution context destroyed" error
-      puppeteer: {
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      },
-      authStrategy: new RemoteAuth({
-        store: store,
-        backupSyncIntervalMs: 300000
-      })
-    });
+  puppeteer: {
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process', // <- important in containers
+      '--disable-gpu'
+    ],
+  },
+  authStrategy: new RemoteAuth({
+    store: store,
+    backupSyncIntervalMs: 300000,
+  }),
+});
+
 
     // Events
     client.on("ready", () => {
       console.log("✅ WhatsApp client is ready! Session restored.");
     });
+
+client.on("auth_failure", msg => console.error("❌ AUTH ERROR:", msg));
+client.on("disconnected", reason => console.error("❌ Client disconnected:", reason));
+
 
     client.on("qr", qr => {
       console.log("Scan this QR to log in:");
